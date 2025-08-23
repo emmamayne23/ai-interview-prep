@@ -39,7 +39,7 @@ export default async function SignIn() {
     >
       <button
         type="submit"
-        className="cursor-pointer text-sm md:text-base font-medium"
+        className="cursor-pointer text-sm md:text-base font-medium text-blue-400 hover:text-cyan-300 duration-300"
       >
         Sign in
       </button>
