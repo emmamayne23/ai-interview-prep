@@ -24,6 +24,7 @@ export const feedbacks = pgTable("feedbacks", {
     interviewId: uuid("interview_id").notNull().references(() => interviews.id),
     userId: uuid("user_id").notNull().references(() => users.id),
     overallScore: integer("overall_score"),
+    categoryScores: json("category_scores"),
     strengths: json("strengths"),
     areasForImprovement: json("areas_for_improvement"),
     suggestions: text("suggestions"),
