@@ -1,3 +1,5 @@
+import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+
 export const interviewer: CreateAssistantDTO = {
   name: "Interviewer",
   firstMessage:

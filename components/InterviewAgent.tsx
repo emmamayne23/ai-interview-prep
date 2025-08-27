@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { vapi } from "@/lib/vapi.sdk";
 import { createFeedback } from "@/lib/interview.actions";
+import { interviewer } from "@/constants";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -13,8 +14,8 @@ enum CallStatus {
 }
 
 export default function InterviewAgent({
-  type,
   interviewId,
+  questions
 }: AgentProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState(CallStatus.INACTIVE);
@@ -68,20 +69,24 @@ export default function InterviewAgent({
 
   useEffect(() => {
     if(callStatus === CallStatus.FINISHED) {
-      if(type === "generate") {
-        router.push("/")
-      } else {
         handleGenerateFeedback(messages)
-      }
     }
   }, [messages, callStatus]);
 
-  const handleCall = () => {
+  const handleCall =  async () => {
     setCallStatus(CallStatus.CONNECTING)
-    vapi.start()
+    let formattedQuestions = ""
+    if(questions) {
+        formattedQuestions = questions.map((question) => `-${question}`).join("\n")
+    }
+    await vapi.start(interviewer, {
+        variableValues: {
+            questions: formattedQuestions
+        }
+    })
   }
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
     setCallStatus(CallStatus.FINISHED);
     vapi.stop();
   };

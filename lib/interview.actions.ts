@@ -3,7 +3,7 @@
 import { db } from "@/db/drizzle";
 import { auth } from "@/auth";
 import { interviews, feedbacks } from "@/db/schema";
-import { success, z } from "zod";
+import { z } from "zod";
 
 import { google } from "@ai-sdk/google";
 import { generateText, generateObject } from "ai";
@@ -50,17 +50,27 @@ const feedbackSchema = z.object({
 
 export async function createInterview(values: z.infer<typeof formSchema>) {
   const session = await auth();
-  const user = session?.user?.id;
+  const userid = session?.user?.id;
 
-  if(!user) {
+  if(!userid) {
     throw new Error("User not authenticated!")
   }
 
   const { role, field, skills, level, type, number } = values;
 
-  const questionsPrompt = `Generate ${number} ${type} interview questions for a ${level} level ${role} role in the ${field} field/industry.
-        Skills to focus on: ${skills}. The questions should be in a JSON array format like this: ["question 1", "question 2", ...].`;
-
+  const questionsPrompt = `Prepare questions for a job interview.
+                The job role is ${role} in the ${field} field/industry.
+                The job experience level is ${level}.
+                The tech stack or skills used in the job is/are: ${skills}.
+                The focus between behavioural and technical questions should lean towards: ${type}.
+                The amount of questions required is: ${number}.
+                Please return only the questions, without any additional text.
+                The questions are going to be read by a voice assistant so do not use "/" or "*" or any other special characters which might break the voice assistant.
+                Return the questions formatted like this:
+                ["Question 1", "Question 2", "Question 3"]
+                
+                Thank you! <3
+            `
   const { text: aiResponse } = await generateText({
     model: google("gemini-2.0-flash-001"),
     prompt: questionsPrompt,
@@ -68,10 +78,10 @@ export async function createInterview(values: z.infer<typeof formSchema>) {
     // console.log("Form data:", values, "Questions:", aiResponse);
 
   const createdInterview = await db.insert(interviews).values({
-      userId: user,
+      userId: userid,
       title: `${role} Interview`,
       formData: values,
-      questions: aiResponse,
+      questions: JSON.parse(aiResponse),
       status: "in_progress"
   }).returning()
 
