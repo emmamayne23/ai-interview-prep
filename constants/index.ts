@@ -3,7 +3,7 @@ import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 export const interviewer: CreateAssistantDTO = {
   name: "Interviewer",
   firstMessage:
-    "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
+    "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience. Shall we begin?",
   transcriber: {
     provider: "deepgram",
     model: "nova-2",

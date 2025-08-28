@@ -54,22 +54,26 @@ interface AgentProps {
   questions?: string[];
 }
 
+interface Interview {
+  id: string;
+  role: string;
+  level: string;
+  questions: string[];
+  skills: string[];
+  userId: string;
+}
+
 interface GetFeedbackByInterviewIdParams {
   interviewId: string;
   userId: string;
 }
 
+interface RouteParams {
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string>>;
+}
+
 interface GetLatestInterviewsParams {
   userId: string;
   limit?: number;
-}
-
-
-interface InterviewFormProps {
-  interviewId: string;
-  role: string;
-  level: string;
-  type: string;
-  techstack: string[];
-  amount: number;
 }

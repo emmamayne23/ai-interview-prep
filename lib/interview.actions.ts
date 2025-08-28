@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { google } from "@ai-sdk/google";
 import { generateText, generateObject } from "ai";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 const formSchema = z.object({
   role: z.string(),
@@ -71,7 +71,7 @@ export async function createInterview(values: z.infer<typeof formSchema>) {
                 
                 Thank you! <3
             `
-  const { text: aiResponse } = await generateText({
+  const { text: questions } = await generateText({
     model: google("gemini-2.0-flash-001"),
     prompt: questionsPrompt,
   });
@@ -81,7 +81,7 @@ export async function createInterview(values: z.infer<typeof formSchema>) {
       userId: userid,
       title: `${role} Interview`,
       formData: values,
-      questions: JSON.parse(aiResponse),
+      questions: JSON.parse(questions),
       status: "in_progress"
   }).returning()
 
@@ -124,6 +124,7 @@ export async function createFeedback(params: CreateFeedbackParams) {
         "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
     })
 
+    
     const [newFeedback] = await db
       .insert(feedbacks)
       .values({
@@ -136,10 +137,34 @@ export async function createFeedback(params: CreateFeedbackParams) {
         suggestions: feedbackObject.suggestions,
         finalAssessment: feedbackObject.finalAssessment
       }).returning()
-
+      console.log(newFeedback)
       return { success: true, feedback: newFeedback }
   } catch (error) {
     console.error(error);
     return { success: false, feedback: null }
   }
+}
+
+export async function getInterviewById(id: string) {
+  const [interview] = await db
+    .select()
+    .from(interviews)
+    .where(eq(interviews.id, id))
+    .execute()
+
+    return interview
+}
+
+export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdParams) {
+  const { userId, interviewId } = params
+  
+  const [feedback] = await db
+    .select()
+    .from(feedbacks)
+    .where(and
+      (eq(feedbacks.interviewId, interviewId), 
+      eq(feedbacks.userId, userId))
+    )
+
+    return feedback
 }

@@ -15,7 +15,8 @@ enum CallStatus {
 
 export default function InterviewAgent({
   interviewId,
-  questions
+  questions,
+  userId,
 }: AgentProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState(CallStatus.INACTIVE);
@@ -28,6 +29,7 @@ export default function InterviewAgent({
     const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
+        // console.log(`${message.role}: ${message.transcript}`);
         const newMessage = { role: message.role, content: message.transcript };
         setMessages((prev) => [...prev, newMessage]);
       }
@@ -54,7 +56,11 @@ export default function InterviewAgent({
   }, []);
 
   const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-    console.log("generate feedback here.");
+    if (!interviewId) {
+      console.error("No interviewId provided. Cannot generate feedback.");
+      return;
+    }
+    console.log("generating feedback...");
     const createdFeedback = await createFeedback({
       interviewId: interviewId!,
       transcript: messages,
@@ -68,22 +74,24 @@ export default function InterviewAgent({
   };
 
   useEffect(() => {
-    if(callStatus === CallStatus.FINISHED) {
+    if(callStatus === CallStatus.FINISHED && messages.some(m => m.role === "user")) {
         handleGenerateFeedback(messages)
     }
-  }, [messages, callStatus]);
+  }, [messages, callStatus, userId]);
 
   const handleCall =  async () => {
     setCallStatus(CallStatus.CONNECTING)
-    let formattedQuestions = ""
-    if(questions) {
-        formattedQuestions = questions.map((question) => `-${question}`).join("\n")
-    }
+    const formattedQuestions = questions ? JSON.stringify(questions) : []
+    // if(questions) {
+    //     formattedQuestions = questions.map((question) => `-${question}`).join("\n")
+    // }
     await vapi.start(interviewer, {
-        variableValues: {
-            questions: formattedQuestions
-        }
-    })
+    variableValues: {
+      questions: formattedQuestions,
+    },
+    clientMessages: ["transcript"], // <--- this is required to capture user speech
+    serverMessages: [],
+  });
   }
 
   const handleDisconnect = async () => {
@@ -92,9 +100,22 @@ export default function InterviewAgent({
   };
 
   return (
-    <main>
+    <main className="text-center">
       <div>
-        <h1>Click to Start!</h1>
+        { isSpeaking && <span className="animate-pulse">Ai is speaking...</span> }
+        <h1>AI Interviewer</h1>
+      </div>
+
+      <div className="flex justify-center w-full">
+        { callStatus === "ACTIVE" || callStatus === "CONNECTING" ? (
+            <button className="border border-red-600 rounded-xl p-2 px-5 bg-red-600" onClick={handleDisconnect}>
+                End
+            </button>
+        ) : (
+            <button className="border border-green-600 rounded-xl p-2 px-5 bg-green-600" onClick={handleCall}>
+                Start
+            </button>
+        ) }
       </div>
     </main>
   );
