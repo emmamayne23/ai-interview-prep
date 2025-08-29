@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { google } from "@ai-sdk/google";
 import { generateText, generateObject } from "ai";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 const formSchema = z.object({
   role: z.string(),
@@ -137,7 +137,7 @@ export async function createFeedback(params: CreateFeedbackParams) {
         suggestions: feedbackObject.suggestions,
         finalAssessment: feedbackObject.finalAssessment
       }).returning()
-      console.log(newFeedback)
+      // console.log(newFeedback)
       return { success: true, feedback: newFeedback }
   } catch (error) {
     console.error(error);
@@ -167,4 +167,23 @@ export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdP
     )
 
     return feedback
+}
+
+export async function getAllInterviews() {
+  const allInterviews = await db
+    .select()
+    .from(interviews)
+    .orderBy(desc(interviews.createdAt))
+
+  return allInterviews
+}
+
+export async function getUserInteviews(userId: string) {
+  const userInterviews = await db
+    .select()
+    .from(interviews)
+    .where(eq(interviews.userId, userId))
+    .orderBy(desc(interviews.createdAt))
+
+  return userInterviews
 }
