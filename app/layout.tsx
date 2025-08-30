@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Montserrat } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Montserrat({
+const bricolage = Bricolage_Grotesque({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });

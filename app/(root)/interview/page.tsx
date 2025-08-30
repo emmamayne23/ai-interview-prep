@@ -9,7 +9,7 @@ export default async function Interview() {
   if (!user) redirect("/");
   return (
     <main className="min-h-screen text-white">
-      Interview Form
+      <h1 className="text-center text-3xl font-semibold mt-10 mb-3">Interview Builder</h1>
       
       <div className="p-5">
         <InterviewForm />

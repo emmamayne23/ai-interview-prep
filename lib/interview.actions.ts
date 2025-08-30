@@ -178,7 +178,7 @@ export async function getAllInterviews() {
   return allInterviews
 }
 
-export async function getUserInteviews(userId: string) {
+export async function getUserInterviews(userId: string) {
   const userInterviews = await db
     .select()
     .from(interviews)

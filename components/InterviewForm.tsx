@@ -22,9 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
 
 import { createInterview } from "@/lib/interview.actions";
 import { redirect } from "next/navigation";
+
 const formSchema = z.object({
   role: z.string().min(1, { message: "Job role is required" }),
   field: z.string().min(1, { message: "Job field is required" }),
@@ -35,6 +37,8 @@ const formSchema = z.object({
 });
 
 export default function InterviewForm() {
+  const [isCreating, setIsCreating] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,84 +54,98 @@ export default function InterviewForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    const interview = await createInterview(values)
+    setIsCreating(true)
     
-    if(interview) {
-        redirect (`/interview/${interview.id}`)
-    } else {
-        console.log("Failed to create questions for the interview")
-        redirect("/")
+    try {
+      const interview = await createInterview(values);
+      
+      if(interview) {
+        redirect(`/interview/${interview.id}`);
+      } else {
+        console.log("Failed to create questions for the interview");
+        setIsCreating(false)
+        redirect("/");
+      }
+    } catch (error) {
+      console.error("Error creating interview:", error);
+      setIsCreating(false)
     }
-    // console.log("Form submitted with:", values);
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto"
+        className="space-y-6 max-w-3xl mx-auto p-8 bg-white text-gray-700 rounded-xl shadow-sm border border-gray-200"
       >
         <FormField
           control={form.control}
           name="role"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Job role</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Job role</FormLabel>
               <FormControl>
-                <Input placeholder={`e.g., Frontend Developer`} {...field} />
+                <Input 
+                  placeholder="e.g. Frontend Developer" 
+                  {...field} 
+                  className="py-5 px-4 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500 text-sm" />
             </FormItem>
           )}
         />
+        
         <FormField
           control={form.control}
           name="field"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Job field/Industry</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Job field/ Industry</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={`"e.g., "Software Engineering", "Finance"`}
+                  placeholder='e.g. Software Engineering, Finance'
                   {...field}
+                  className="py-5 px-4 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500 text-sm" />
             </FormItem>
           )}
         />
+        
         <FormField
           control={form.control}
           name="skills"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Skills</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Skills/ Techstack</FormLabel>
               <FormControl>
                 <Input
-                  placeholder={`"e.g., React, Node, Finance Modeling`}
+                  placeholder='e.g. React, Node, Finance Modeling'
                   {...field}
+                  className="py-5 px-4 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500 text-sm" />
             </FormItem>
           )}
         />
-        <div className="flex justify-between items-center">
+        
+        <div className="flex justify-between items-center gap-6">
           <FormField
             control={form.control}
             name="level"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Level</FormLabel>
+              <FormItem className="flex-1">
+                <FormLabel className="text-gray-700 font-medium">Level</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full py-5 px-4 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                       <SelectValue placeholder="Select the level" />
                     </SelectTrigger>
                     <SelectContent>
@@ -137,23 +155,24 @@ export default function InterviewForm() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-500 text-sm" />
               </FormItem>
             )}
           />
+          
           <FormField
             control={form.control}
             name="type"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Interview Type</FormLabel>
+              <FormItem className="flex-1">
+                <FormLabel className="text-gray-700 font-medium">Interview Type</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full py-5 px-4 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                       <SelectValue placeholder="Select the type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -163,25 +182,48 @@ export default function InterviewForm() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-red-500 text-sm" />
               </FormItem>
             )}
           />
         </div>
+        
         <FormField
           control={form.control}
           name="number"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Number of questions for the interview</FormLabel>
+              <FormLabel className="text-gray-700 font-medium">Number of questions for the interview</FormLabel>
               <FormControl>
-                <Input placeholder="5" type="number" {...field} />
+                <Input 
+                  placeholder="5" 
+                  type="number" 
+                  {...field} 
+                  className="py-5 px-4 border-gray-300 text-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-500 text-sm" />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full py-6">Submit</Button>
+        
+        <Button 
+          type="submit" 
+          disabled={isCreating}
+          className="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {isCreating ? (
+            <div className="flex items-center justify-center">
+              <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Creating Interview...
+            </div>
+          ) : (
+            "Create Interview"
+          )}
+        </Button>
       </form>
     </Form>
   );

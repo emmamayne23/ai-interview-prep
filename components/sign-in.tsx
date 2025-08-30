@@ -20,7 +20,7 @@ export default async function SignIn() {
           Sign Out
         </button>
       </form>
-      <Link href={""}>
+      <button>
         <Image
           src={user.image || ""}
           width={30}
@@ -28,7 +28,7 @@ export default async function SignIn() {
           alt={user.name || ""}
           className="rounded-full border border-blue-400 hover:border-cyan-300"
         />
-      </Link>
+      </button>
     </div>
   ) : (
     <form

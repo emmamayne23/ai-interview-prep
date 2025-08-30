@@ -39,9 +39,9 @@ export default async function Home() {
         /> */}
       </div>
       <div className="p-5">
-        <h1 className="text-3xl font-semibold my-3">Popular Interviews</h1>
+        <h1 className="text-3xl font-semibold my-3 mb-5">Popular Interviews</h1>
 
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 place-items-center">
+        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 place-items-center md:w-[90%]">
           { interviews.map((interview) => (
             <InterviewCard 
               key={interview.id} 
