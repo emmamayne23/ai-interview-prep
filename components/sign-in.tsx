@@ -1,6 +1,5 @@
 import { signIn, auth, signOut } from "@/auth";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function SignIn() {
   const session = await auth();
@@ -20,15 +19,35 @@ export default async function SignIn() {
           Sign Out
         </button>
       </form>
-      <button>
-        <Image
-          src={user.image || ""}
-          width={30}
-          height={30}
-          alt={user.name || ""}
-          className="rounded-full border border-blue-400 hover:border-cyan-300"
-        />
-      </button>
+      <div className="group">
+        <button>
+          <Image
+            src={user.image || ""}
+            width={30}
+            height={30}
+            alt={user.name || ""}
+            className="rounded-full mt-1.5 border border-blue-400 hover:border-cyan-300"
+          />
+        </button>
+
+        <div className="hidden absolute top-14 right-4 bg-white rounded-lg shadow-lg border border-gray-200 p-4 z-50 group-hover:flex animate-in fade-in-90 zoom-in-95 duration-200 min-w-[240px]">
+          <div className="flex items-start space-x-3">
+            <Image
+              src={user.image || "/default-avatar.png"}
+              width={40}
+              height={40}
+              alt={user.name || "User"}
+              className="rounded-full ring-2 ring-cyan-500/20"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-gray-900 truncate">
+                {user.name || "User"}
+              </p>
+              <p className="text-sm text-gray-500 truncate">{user.email}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   ) : (
     <form

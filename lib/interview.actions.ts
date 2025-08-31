@@ -178,6 +178,16 @@ export async function getAllInterviews() {
   return allInterviews
 }
 
+export async function getUserFeedbacks(userId: string) {
+  const userFeedbacks = await db
+   .select()
+   .from(feedbacks)
+   .where(eq(feedbacks.userId, userId))
+   .orderBy(desc(feedbacks.createdAt))
+
+   return userFeedbacks
+}
+
 export async function getUserInterviews(userId: string) {
   const userInterviews = await db
     .select()

@@ -25,7 +25,8 @@ import {
 import { useState } from "react";
 
 import { createInterview } from "@/lib/interview.actions";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   role: z.string().min(1, { message: "Job role is required" }),
@@ -38,6 +39,7 @@ const formSchema = z.object({
 
 export default function InterviewForm() {
   const [isCreating, setIsCreating] = useState(false);
+  const router = useRouter()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -60,14 +62,16 @@ export default function InterviewForm() {
       const interview = await createInterview(values);
       
       if(interview) {
-        redirect(`/interview/${interview.id}`);
+        toast.success("You interview has been created!")
+        setTimeout(() => router.push(`/interview/${interview.id}`), 1000)
       } else {
-        console.log("Failed to create questions for the interview");
+        toast.error("Failed to create questions for the interview");
         setIsCreating(false)
-        redirect("/");
+        router.push("/");
       }
     } catch (error) {
       console.error("Error creating interview:", error);
+      toast.error("Something went wrong, Failed to create interview");
       setIsCreating(false)
     }
   }
