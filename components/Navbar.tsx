@@ -10,7 +10,7 @@ const Navbar = () => {
         href={"/"} 
         className="flex flex-col items-center gap-2 group transition-all duration-300"
       >
-        <div className="relative overflow-hidden rounded-xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-cyan-500/20">
+        <div className="relative overflow-hidden rounded-md transition-all duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-cyan-500/20">
           <Image 
             src={LogoImage} 
             alt="Logo" 
