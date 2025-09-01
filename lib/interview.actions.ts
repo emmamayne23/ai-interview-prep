@@ -180,9 +180,16 @@ export async function getAllInterviews() {
 
 export async function getUserFeedbacks(userId: string) {
   const userFeedbacks = await db
-   .select()
+   .select({
+    interviewId: interviews.id,
+    interviewName: interviews.title,
+    interviewData: interviews.formData,
+    interviewScore: feedbacks.overallScore,
+    interviewAssesment: feedbacks.finalAssessment
+   })
    .from(feedbacks)
    .where(eq(feedbacks.userId, userId))
+   .leftJoin(interviews, eq(feedbacks.interviewId, interviews.id))
    .orderBy(desc(feedbacks.createdAt))
 
    return userFeedbacks

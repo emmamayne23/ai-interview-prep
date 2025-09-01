@@ -1,71 +1,121 @@
 import { getUserInterviews, getUserFeedbacks } from "@/lib/interview.actions";
 import { auth } from "@/auth";
-import { InterviewCard } from "@/components/InterviewCard";
+import InterviewAccordion from "@/components/InterviewAccordion";
 import Image from "next/image";
 import { Check, CheckCheck } from "lucide-react";
 import { redirect } from "next/navigation";
-import Feedbacks from "@/components/Feedbacks";
+import FeedbackAccordion from "@/components/FeedbackAccordion";
 
 export default async function MyInterviewsPage() {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if(!session) redirect("/")
+  if (!session) redirect("/");
 
   const myInterviews = await getUserInterviews(userId!);
-  const myFeedbacks = await getUserFeedbacks(userId!)
-
-  const [interview] = await getUserInterviews(userId!)
-
-//   console.log(myFeedbacks)
+  const myFeedbacks = await getUserFeedbacks(userId!);
   return (
-    <main className="min-h-screen text-white p-5">
+    <main className="min-h-screen text-white p-5 md:px-20 lg:px-40">
       <div className="sm:flex items-center mb-5">
         <div className="flex m-10 items-center gap-5">
-        <Image
-          src={session?.user?.image ?? ""}
-          alt={session?.user?.name ?? ""}
-          width={80}
-          height={80}
-        />
-        <div>
-          <p>{session?.user?.name}</p>
-          <p className="text-gray-500">{session?.user?.email}</p>
+          <Image
+            src={session?.user?.image ?? ""}
+            alt={session?.user?.name ?? ""}
+            width={80}
+            height={80}
+          />
+          <div>
+            <p>{session?.user?.name}</p>
+            <p className="text-gray-500">{session?.user?.email}</p>
+          </div>
         </div>
-      </div>
 
-      <div className="flex justify-evenly items-center sm:gap-3">
-        <div className="border p-3 space-y-1">
-          <p className="flex items-center ">
-            <Check className="border border-green-600 rounded-full p-0.5 mr-3 text-green-600" />
-            <span className="text-xl">{myInterviews.length}</span>
-          </p>
-          <h1>Interviews created</h1>
-        </div>
-        <div className="border p-3 space-y-1">
+        <div className="flex justify-evenly items-center sm:gap-3">
+          <div className="border p-3 space-y-1">
+            <p className="flex items-center ">
+              <Check className="border border-green-600 rounded-full p-0.5 mr-3 text-green-600" />
+              <span className="text-xl">{myInterviews.length}</span>
+            </p>
+            <h1>Interviews created</h1>
+          </div>
+          <div className="border p-3 space-y-1">
             <p className="flex items-center ">
               <CheckCheck className="border border-green-600 rounded-full p-0.5 mr-3 text-green-600" />
               <span className="text-xl">{myFeedbacks.length}</span>
             </p>
             <h1>Interviews completed</h1>
+          </div>
         </div>
       </div>
-      </div>
-        <hr />
+      <hr />
       <div>
-        {/* <h2 className="font-bold text-2xl my-3">My Feedbacks ({myFeedbacks.length})</h2> */}
-        <Feedbacks myFeedbacks={myFeedbacks} interview={interview} />
-        {/* <p>{console.log(myFeedbacks)}</p> */}
+        <h2 className="font-bold text-2xl my-6">
+          My Feedbacks ({myFeedbacks.length})
+        </h2>
+
+        {myFeedbacks.length === 0 ? (
+          <div className="bg-gray-50 rounded-xl p-8 text-center border border-dashed border-gray-300">
+            <svg
+              className="w-12 h-12 text-gray-400 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              ></path>
+            </svg>
+            <p className="text-gray-500">
+              No feedback yet. Complete an interview to get your first feedback
+              report.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {myFeedbacks.map((feedback, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+              >
+                <FeedbackAccordion feedback={feedback} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-        <hr className="my-3" />
-      <h2 className="font-bold text-2xl my-3">
+
+      <hr className="my-5" />
+      {/* <h2 className="font-bold text-2xl my-3">
         My Interviews ({myInterviews.length})
       </h2>
       <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-[90%]">
         {myInterviews.map((interview) => (
           <InterviewCard key={interview.id} interview={interview} />
         ))}
-      </div>
+      </div> */}
+      <div>
+  <h2 className="font-bold text-2xl my-6">My Interviews ({myInterviews.length})</h2>
+  
+  {myInterviews.length === 0 ? (
+    <div className="bg-gray-50 rounded-xl p-8 text-center border border-dashed border-gray-300">
+      <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <p className="text-gray-500">No interviews yet. Create your first interview to get started.</p>
+    </div>
+  ) : (
+    <div className="space-y-3">
+      {myInterviews.map((interview, index) => (
+        <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <InterviewAccordion interview={interview} />
+        </div>
+      ))}
+    </div>
+  )}
+</div>
     </main>
   );
 }

@@ -34,7 +34,7 @@ export type FeedbackRecord = {
   id: string;
   interviewId: string;
   userId: string;
-  overallScore: number; // 0-100
+  overallScore: number;
   categoryScores: CategoryScores;
   strengths: string[];
   areasForImprovement: string[];
@@ -83,6 +83,16 @@ const LabelRow = ({ label, value }: { label: string; value: string }) => (
 );
 
 export default function FeedbackReport({ feedback, candidateName }: Props) {
+  if (!feedback) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-500">Loading feedback data...</p>
+        </div>
+      </div>
+    );
+  }
   const { overallScore, categoryScores } = feedback;
   const tone = scoreTone(overallScore);
   const radarData = toRadarData(categoryScores);
@@ -119,14 +129,14 @@ export default function FeedbackReport({ feedback, candidateName }: Props) {
               </div>
 
               {/* Radar Chart */}
-              <div className="md:col-span-2 h-64">
+              <div className="md:col-span-2 h-64 text-cyan-600">
                 <ResponsiveContainer width="100%" height="100%">
                   <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="80%">
                     <PolarGrid />
                     <PolarAngleAxis dataKey="metric" tick={{ fontSize: 12 }} />
                     <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10 }} />
                     <RechartsTooltip formatter={(v: any) => `${v}/100`} />
-                    <Radar dataKey="score" stroke="#000" fill="#000" fillOpacity={0.1} />
+                    <Radar dataKey="score" stroke="#000" fill="#00FFFF" fillOpacity={0.1} />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>

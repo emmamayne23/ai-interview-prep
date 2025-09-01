@@ -4,7 +4,7 @@ import {
   getFeedbackByInterviewId,
 } from "@/lib/interview.actions";
 import { redirect } from "next/navigation";
-import FeedbackReport from "@/components/FeedbackUi";
+import FeedbackReport from "@/components/FeedbackReport";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -42,6 +42,7 @@ export default async function FeedbackPage({ params }: RouteParams) {
           </Link>
         </Button>
       </div>
+      <div className="text-2xl md:text-3xl font-bold ml-4 capitalize">{interview.title}</div>
       <FeedbackReport feedback={feedback} candidateName={session?.user?.name} />
     </main>
   );
