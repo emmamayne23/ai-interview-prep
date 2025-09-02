@@ -45,28 +45,31 @@ Interview SideKick, a sophisticated web application that helps users practice jo
 
 ### Frontend
 
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Shadcn UI Components
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 
 ### Backend
 
-- NextAuth.js for authentication
-- Drizzle ORM for database management
-- VAPI AI for voice interaction
-- GPT-4 for interview intelligence
-- Deepgram for speech-to-text
-- Eleven Labs for text-to-speech
+[![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://next-auth.js.org/)
+[![Drizzle](https://img.shields.io/badge/Drizzle_ORM-000000?style=for-the-badge&logo=drizzle&logoColor=white)](https://orm.drizzle.team/)
+[![VAPI AI](https://img.shields.io/badge/VAPI_AI-5B21B6?style=for-the-badge&logo=v&logoColor=white)](https://vapi.ai/)
+[![GPT-4](https://img.shields.io/badge/GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Deepgram](https://img.shields.io/badge/Deepgram-302F4D?style=for-the-badge&logo=deepgram&logoColor=white)](https://deepgram.com/)
+[![Eleven Labs](https://img.shields.io/badge/Eleven_Labs-000000?style=for-the-badge&logo=elevenlabs&logoColor=white)](https://elevenlabs.io/)
 
 ### Database
 
-- Structured with Drizzle ORM
-- SQL database for storing:
-  - User profiles
-  - Interview sessions
-  - Feedback reports
+[![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-000000?style=for-the-badge&logo=drizzle&logoColor=white)](https://orm.drizzle.team/)
+[![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+
+Features:
+
+- User profiles
+- Interview sessions
+- Feedback reports
 
 ## Getting Started
 
