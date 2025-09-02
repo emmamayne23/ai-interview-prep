@@ -88,34 +88,43 @@ export default async function MyInterviewsPage() {
       </div>
 
       <hr className="my-5" />
-      {/* <h2 className="font-bold text-2xl my-3">
-        My Interviews ({myInterviews.length})
-      </h2>
-      <div className="grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 gap-5 md:w-[90%]">
-        {myInterviews.map((interview) => (
-          <InterviewCard key={interview.id} interview={interview} />
-        ))}
-      </div> */}
       <div>
-  <h2 className="font-bold text-2xl my-6">My Interviews ({myInterviews.length})</h2>
-  
-  {myInterviews.length === 0 ? (
-    <div className="bg-gray-50 rounded-xl p-8 text-center border border-dashed border-gray-300">
-      <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-      <p className="text-gray-500">No interviews yet. Create your first interview to get started.</p>
-    </div>
-  ) : (
-    <div className="space-y-3">
-      {myInterviews.map((interview, index) => (
-        <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <InterviewAccordion interview={interview} />
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+        <h2 className="font-bold text-2xl my-6">
+          My Interviews ({myInterviews.length})
+        </h2>
+
+        {myInterviews.length === 0 ? (
+          <div className="bg-gray-50 rounded-xl p-8 text-center border border-dashed border-gray-300">
+            <svg
+              className="w-12 h-12 text-gray-400 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <p className="text-gray-500">
+              No interviews yet. Create your first interview to get started.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {myInterviews.map((interview, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+              >
+                <InterviewAccordion interview={interview} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }

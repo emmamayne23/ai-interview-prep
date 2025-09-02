@@ -26,6 +26,7 @@ const Navbar = () => {
       </Link>
       
       <div className="flex items-center gap-4 md:gap-6">
+        <Link href={"/"} className="text-white hover:underline">Home</Link>
         <Link href={"/my-interviews"} className="text-white hover:underline">My Interviews</Link>
         <div className="flex items-center">
           <SignIn />

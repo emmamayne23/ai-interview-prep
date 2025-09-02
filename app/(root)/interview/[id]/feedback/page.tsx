@@ -14,7 +14,7 @@ export default async function FeedbackPage({ params }: RouteParams) {
   const userId = session?.user?.id;
 
   const interview = await getInterviewById(id);
-  if (!interview) redirect("/");
+  if (!session) redirect("/");
 
   const feedback = await getFeedbackByInterviewId({
     userId: userId!,

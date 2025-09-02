@@ -73,6 +73,10 @@ interface RouteParams {
   searchParams: Promise<Record<string, string>>;
 }
 
+interface SearchParams {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
 interface GetLatestInterviewsParams {
   userId: string;
   limit?: number;

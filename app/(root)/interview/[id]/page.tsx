@@ -14,7 +14,7 @@ export default async function InterviewPage({ params }: InterviewPageprop ) {
 
     const interview = await getInterviewById(id) as { questions?: string[] } | null
 
-    if(!interview && session) redirect("/")
+    if(!session) redirect("/")
     return (
         <main className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 text-white">
             <div className="container mx-auto px-4 py-8">
