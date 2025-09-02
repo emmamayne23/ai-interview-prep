@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Interview Preparation Platform
+
+Interview SideKick, a sophisticated web application that helps users practice job interviews with an AI-powered interviewer, providing real-time feedback and comprehensive assessments.
+
+![Interview SideKick Hero](public/readme.png)
+
+## Features
+
+### 1. AI-Powered Interview Sessions
+
+- Real-time voice interactions with an AI interviewer
+- Natural conversation flow with professional and contextual responses
+- Dynamic question generation based on job role and requirements
+
+### 2. Customizable Interview Experience
+
+- Configure interviews based on:
+  - Job role
+  - Industry field
+  - Required skills
+  - Experience level
+  - Interview type (behavioral/technical focus)
+  - Number of questions
+
+### 3. Comprehensive Feedback System
+
+- Detailed performance assessment in key areas:
+  - Communication skills
+  - Technical knowledge
+  - Problem-solving abilities
+  - Cultural and role fit
+  - Confidence and clarity
+- Strengths and areas for improvement
+- Actionable suggestions for enhancement
+- Final assessment summary
+
+### 4. Personal Dashboard
+
+- Track interview history
+- View all feedback reports
+- Monitor progress over time
+- Access interview statistics
+
+## Technology Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn UI Components
+
+### Backend
+
+- NextAuth.js for authentication
+- Drizzle ORM for database management
+- VAPI AI for voice interaction
+- GPT-4 for interview intelligence
+- Deepgram for speech-to-text
+- Eleven Labs for text-to-speech
+
+### Database
+
+- Structured with Drizzle ORM
+- SQL database for storing:
+  - User profiles
+  - Interview sessions
+  - Feedback reports
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+
+```bash
+git clone https://github.com/emmamayne23/ai-interview-prep.git
+```
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+1. Set up environment variables:
+
+Create a `.env` file with the following variables:
+
+```env
+DATABASE_URL=your_database_url
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+VAPI_API_KEY=your_vapi_api_key
+```
+
+1. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
