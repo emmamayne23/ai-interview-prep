@@ -91,9 +91,11 @@ Create a `.env` file with the following variables:
 
 ```env
 DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
+AUTH_SECRET=your_auth_secret
+AUTH_GOOGLE_ID=your_google_id
+AUTH_GOOGLE_SECRET=your_google_secret
 VAPI_API_KEY=your_vapi_api_key
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_generative_ai_api_key
 ```
 
 1. Start the development server:
