@@ -18,7 +18,7 @@ export default async function Home() {
             Practice real interview questions & get instant feedback
           </p>
 
-          <button className="bg-slate-700 rounded-full font-bold px-5 py-2 cursor-pointer min-h-10 w-[60%] sm:w-full">
+          <button className="bg-slate-700 rounded-full font-bold px-5 py-2 cursor-pointer min-h-10">
             <Link href="/interview">Start an Interview</Link>
           </button>
         </div>
@@ -37,7 +37,7 @@ export default async function Home() {
           <h1 className="text-2xl sm:text-4xl font-semibold my-3 mb-5">
             Popular Interviews
           </h1>
-          <Link href={"/interviews"} className="underline text-cyan-400 text-sm sm:text-base">
+          <Link href={"/interviews"} className="underline text-cyan-400 text-sm mb-1 sm:text-base">
             All Interviews
           </Link>
         </div>
