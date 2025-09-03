@@ -6,7 +6,7 @@ export default async function Interview() {
 
   if (!session) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[90vh] p-8">
+      <div className="flex flex-col items-center justify-center min-h-[90vh] p-3">
         <div className="bg-gray-800/50 rounded-xl p-8 text-center border border-gray-700 max-w-md w-full">
           <svg
             className="w-12 h-12 text-gray-400 mx-auto mb-4"
@@ -37,7 +37,7 @@ export default async function Interview() {
         Interview Builder
       </h1>
 
-      <div className="p-5">
+      <div className="p-3">
         <InterviewForm />
       </div>
     </main>

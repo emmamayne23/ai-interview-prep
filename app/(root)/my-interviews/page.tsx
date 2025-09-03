@@ -11,7 +11,7 @@ export default async function MyInterviewsPage() {
 
   if (!session) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[90vh] p-8">
+      <div className="flex flex-col items-center justify-center min-h-[90vh] p-3">
         <div className="bg-gray-800/50 rounded-xl p-8 text-center border border-gray-700 max-w-md w-full">
           <svg
             className="w-12 h-12 text-gray-400 mx-auto mb-4"
@@ -40,7 +40,7 @@ export default async function MyInterviewsPage() {
   const myInterviews = await getUserInterviews(userId!);
   const myFeedbacks = await getUserFeedbacks(userId!);
   return (
-    <main className="min-h-screen text-white p-5 md:px-20 lg:px-40">
+    <main className="min-h-screen text-white p-3 md:px-20 lg:px-40">
       <div className="sm:flex items-center mb-5">
         <div className="flex m-10 items-center gap-5">
           <Image

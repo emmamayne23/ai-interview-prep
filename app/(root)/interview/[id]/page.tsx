@@ -15,7 +15,7 @@ export default async function InterviewPage({ params }: InterviewPageprop ) {
 
     if (!session) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[90vh] p-8">
+      <div className="flex flex-col items-center justify-center min-h-[90vh] p-3">
         <div className="bg-gray-800/50 rounded-xl p-8 text-center border border-gray-700 max-w-md w-full">
           <svg
             className="w-12 h-12 text-gray-400 mx-auto mb-4"
@@ -42,8 +42,8 @@ export default async function InterviewPage({ params }: InterviewPageprop ) {
   }
     return (
         <main className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 text-white">
-            <div className="container mx-auto px-4 py-8">
-                <header className="text-center mb-12">
+            <div className="container mx-auto px-3 py-8">
+                <header className="text-center mb-12 mt-6">
                     <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
                         AI Interview Session
                     </h1>

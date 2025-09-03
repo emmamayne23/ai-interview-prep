@@ -32,7 +32,7 @@ export default async function Home() {
           />
         </div>
       </section>
-      <div className="p-5">
+      <div className="p-2.5">
         <div className="flex items-center justify-between md:w-[90%]">
           <h1 className="text-2xl sm:text-4xl font-semibold my-3 mb-5">
             Popular Interviews

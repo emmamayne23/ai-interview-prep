@@ -15,7 +15,7 @@ export default async function FeedbackPage({ params }: RouteParams) {
   const interview = await getInterviewById(id);
   if (!session) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[90vh] p-8">
+      <div className="flex flex-col items-center justify-center min-h-[90vh] p-3">
         <div className="bg-gray-800/50 rounded-xl p-8 text-center border border-gray-700 max-w-md w-full">
           <svg
             className="w-12 h-12 text-gray-400 mx-auto mb-4"

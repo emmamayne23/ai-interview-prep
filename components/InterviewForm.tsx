@@ -80,7 +80,7 @@ export default function InterviewForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-3xl mx-auto p-8 bg-white text-gray-700 rounded-xl shadow-sm border border-gray-200"
+        className="space-y-8 max-w-3xl mx-auto p-5 md:p-8 bg-white text-gray-700 rounded-xl shadow-sm border border-gray-200"
       >
         <FormField
           control={form.control}
@@ -136,7 +136,7 @@ export default function InterviewForm() {
           )}
         />
         
-        <div className="flex justify-between items-center gap-6">
+        <div className="sm:flex justify-between space-y-8 sm:space-y-0 items-center gap-6">
           <FormField
             control={form.control}
             name="level"
@@ -214,7 +214,7 @@ export default function InterviewForm() {
         <Button 
           type="submit" 
           disabled={isCreating}
-          className="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full py-5 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isCreating ? (
             <div className="flex items-center justify-center">
@@ -225,7 +225,7 @@ export default function InterviewForm() {
               Creating Interview...
             </div>
           ) : (
-            "Create Interview"
+            "Create Your Interview"
           )}
         </Button>
       </form>

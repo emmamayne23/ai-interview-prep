@@ -185,18 +185,18 @@ export default function InterviewAgent({
               onClick={handleCall}
             >
               <svg
-                className="w-5 h-5 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="mr-2 lucide lucide-command-icon lucide-command"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15.05 5a5 5 0 015 5m0 8a5 5 0 01-5 5m-6-13a5 5 0 00-5 5m0 8a5 5 0 005 5"
-                ></path>
+                <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
               </svg>
               Start Interview
             </button>

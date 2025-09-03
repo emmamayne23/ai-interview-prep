@@ -98,7 +98,7 @@ export default function FeedbackReport({ feedback, candidateName }: Props) {
   const radarData = toRadarData(categoryScores);
 
   return (
-    <div className="mx-auto max-w-6xl p-4 md:p-8 space-y-6 print:p-0">
+    <div className="mx-auto max-w-6xl p-3 md:p-8 space-y-6 print:p-0">
       {/* Header */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="col-span-1 lg:col-span-2 backdrop-blur-md">
