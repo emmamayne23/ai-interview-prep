@@ -26,12 +26,12 @@ export default function InterviewsList({ intialInterviews }) {
   return (
     <main>
       <div className="my-5 mb-10 lg:w-[80%] sm:flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Interview Library</h1>
+        <h1 className="text-3xl font-bold my-3">Interview Library</h1>
         <div className="relative border border-white rounded-lg items-center flex gap-2 px-2 py-1 h-fit max-w-80">
           <Search />
           <input
             type="search"
-            placeholder="search interview..."
+            placeholder="search interviews..."
             className="outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
