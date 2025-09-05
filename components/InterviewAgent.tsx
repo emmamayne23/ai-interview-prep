@@ -17,6 +17,7 @@ export default function InterviewAgent({
   interviewId,
   questions,
   userId,
+  userName,
 }: AgentProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState(CallStatus.INACTIVE);
@@ -90,6 +91,7 @@ export default function InterviewAgent({
     // }
     await vapi.start(interviewer, {
       variableValues: {
+        userName,
         questions: formattedQuestions,
       },
       clientMessages: ["transcript"], // <--- this is required to capture user speech

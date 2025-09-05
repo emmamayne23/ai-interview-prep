@@ -63,6 +63,7 @@ export default async function InterviewPage({ params }: InterviewPageprop) {
             interviewId={id}
             questions={interview?.questions}
             userId={userId}
+            userName={session?.user?.name}
           />
         </div>
 
