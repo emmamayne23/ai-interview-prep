@@ -46,7 +46,7 @@ export default async function FeedbackPage({ params }: RouteParams) {
     interviewId: id,
   });
   return (
-    <main className="min-h-screen text-white">
+    <main className="min-h-screen text-white max-w-7xl mx-auto">
       <div className="flex w-full justify-evenly gap-4 max-sm:items-center p-3">
         <Button className="w-fit rounded-2xl px-5 cursor-pointer min-h-10 flex-1">
           <Link href="/" className="flex w-full justify-center">

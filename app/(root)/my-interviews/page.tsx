@@ -40,7 +40,7 @@ export default async function MyInterviewsPage() {
   const myInterviews = await getUserInterviews(userId!);
   const myFeedbacks = await getUserFeedbacks(userId!);
   return (
-    <main className="min-h-screen text-white p-3 md:px-20 lg:px-40">
+    <main className="min-h-screen text-white p-3 md:px-20 xl:px-20 lg:px-40 max-w-7xl mx-auto">
       <div className="sm:flex items-center mb-5">
         <div className="flex m-10 items-center gap-5">
           <Image

@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 export default async function Home() {
   const interviews = await getAllInterviews();
   return (
-    <main className="min-h-screen text-white">
+    <main className="min-h-screen text-white max-w-7xl mx-auto">
       <section className="flex items-center gap-3 m-3 md:m-5 lg:m-16 mt-5 p-3 bg-gradient-to-b from-blue-700 to-sky-950 bg-opa rounded-2xl text-white">
         <div className="flex flex-col gap-6 max-w-lg p-3 md:p-5 lg:p-10">
           <h2 className="font-bold text-2xl">

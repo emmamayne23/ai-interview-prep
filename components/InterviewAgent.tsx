@@ -220,7 +220,7 @@ export default function InterviewAgent({
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
               <p className="text-gray-700 font-medium">
-                Generating feedback...
+                Generating feedback, please wait...
               </p>
             </div>
           </div>
