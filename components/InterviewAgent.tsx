@@ -66,8 +66,9 @@ export default function InterviewAgent({
       interviewId: interviewId!,
       transcript: messages,
     });
-    if (createdFeedback) {
-      router.push(`/interview/${interviewId}/feedback`);
+    if (createdFeedback && createdFeedback.feedback) {
+      const feedbackId = createdFeedback.feedback?.id
+      router.push(`/interview-feedback/${feedbackId}`);
     } else {
       console.log("Error saving feedback");
       router.push("/");

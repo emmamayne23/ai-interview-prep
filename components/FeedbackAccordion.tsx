@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 interface Feedback {
+  id: string,
   interviewId: string;
   interviewName: string;
   interviewData: {
@@ -167,7 +168,7 @@ export default function FeedbackAccordion({
               </p>
             </div>
             <Link
-              href={`/interview/${feedback.interviewId}/feedback`}
+              href={`/interview-feedback/${feedback.id}`}
               className="relative z-10"
             >
               <Button className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-medium py-3 transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-lg group-hover:shadow-blue-200 flex items-center justify-center gap-2">

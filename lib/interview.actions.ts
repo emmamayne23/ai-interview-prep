@@ -169,6 +169,18 @@ export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdP
     return feedback
 }
 
+export async function getFeedbackById(id: string) {
+  const [feedback] = await db
+    .select()
+    .from(feedbacks)
+    .where(eq(feedbacks.id, id))
+    .limit(1)
+
+    if(!feedback) throw new Error("Feedback not found")
+
+    return feedback
+}
+
 export async function getAllInterviews() {
   const allInterviews = await db
     .select()
@@ -181,6 +193,7 @@ export async function getAllInterviews() {
 export async function getUserFeedbacks(userId: string) {
   const userFeedbacks = await db
    .select({
+    id: feedbacks.id,
     interviewId: interviews.id,
     interviewName: interviews.title,
     interviewData: interviews.formData,
