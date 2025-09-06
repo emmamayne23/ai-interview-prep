@@ -198,7 +198,8 @@ export async function getUserFeedbacks(userId: string) {
     interviewName: interviews.title,
     interviewData: interviews.formData,
     interviewScore: feedbacks.overallScore,
-    interviewAssesment: feedbacks.finalAssessment
+    interviewAssesment: feedbacks.finalAssessment,
+    feedbackDate: feedbacks.createdAt,
    })
    .from(feedbacks)
    .where(eq(feedbacks.userId, userId))
@@ -206,6 +207,17 @@ export async function getUserFeedbacks(userId: string) {
    .orderBy(desc(feedbacks.createdAt))
 
    return userFeedbacks
+}
+
+export async function deleteFeedback(feedbackId: string) {
+  try {
+    await db
+      .delete(feedbacks)
+      .where(eq(feedbacks.id, feedbackId))
+  } catch (error) {
+    console.error("Failed to delete feedback", error)
+    return { success: false, error: "Could not delete feedback" }
+  }
 }
 
 export async function getUserInterviews(userId: string) {

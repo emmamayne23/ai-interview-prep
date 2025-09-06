@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Accordion,
   AccordionContent,
@@ -6,6 +8,9 @@ import {
 } from "@/components/ui/accordion";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { Trash2 } from "lucide-react";
+import { deleteFeedback } from "@/lib/interview.actions";
+import { useRouter } from "next/navigation";
 
 interface Feedback {
   id: string,
@@ -21,6 +26,7 @@ interface Feedback {
   };
   interviewScore: number;
   interviewAssesment: string;
+  feedbackDate: string,
 }
 
 export default function FeedbackAccordion({
@@ -28,6 +34,17 @@ export default function FeedbackAccordion({
 }: {
   feedback: Feedback
 }) {
+  const router = useRouter()
+  const handleDelete = async () => {
+    if(window.confirm("Are you sure you want to delete this feedback report?")) {
+      const result = await deleteFeedback(feedback.id)
+      if(result?.success) {
+        router.refresh()
+      } else {
+        alert ("Failed to delete feedback, Please try again.")
+      }
+    }
+  }
   return (
     <Accordion type="multiple" className="w-full">
       <AccordionItem value="feedback-item">
@@ -157,6 +174,29 @@ export default function FeedbackAccordion({
                     </span>
                   ))}
               </div>
+            </div>
+            <div className="flex justify-between items-center mb-4">
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <p className="text-xs font-medium text-gray-500 uppercase">
+                  Date Taken
+                </p>
+                <p className="text-sm font-medium text-gray-900">
+                  {new Date(feedback.feedbackDate).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-lg">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent the accordion from toggling
+                  handleDelete();
+                }}
+                className="text-red-500"
+              >
+                <Trash2 size={16} /> Delete
+              </Button>
+            </div>
             </div>
 
             <div>
