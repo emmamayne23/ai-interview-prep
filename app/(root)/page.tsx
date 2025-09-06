@@ -18,9 +18,9 @@ export default async function Home() {
             Practice real interview questions & get instant feedback
           </p>
 
-          <button className="bg-slate-700 rounded-full font-bold px-5 py-2 cursor-pointer min-h-10">
-            <Link href="/interview">Start an Interview</Link>
-          </button>
+          <Link href="/interview" className="bg-slate-700 w-full text-center rounded-full font-bold px-5 py-2 cursor-pointer min-h-10">
+            Create a new Interview
+          </Link>
         </div>
         <div>
           <Image

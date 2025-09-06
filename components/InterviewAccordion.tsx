@@ -23,7 +23,7 @@ interface InterviewAccordionProps {
 }
 
 export default function InterviewAccordion({
-  interview
+  interview,
 }: InterviewAccordionProps) {
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -114,7 +114,11 @@ export default function InterviewAccordion({
                   Created
                 </p>
                 <p className="text-sm font-medium text-gray-900">
-                  {new Date(interview.createdAt).toLocaleDateString()}
+                  {new Date(interview.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
                 </p>
               </div>
             </div>
