@@ -1,20 +1,22 @@
-import { getFeedbackById, getInterviewById } from "@/lib/interview.actions"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { auth } from "@/auth"
-import FeedbackReport from "@/components/FeedbackReport"
+import { getFeedbackById, getInterviewById } from "@/lib/interview.actions";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { auth } from "@/auth";
+import FeedbackReport from "@/components/FeedbackReport";
 
 interface InterviewFeedbackPageProps {
-    params: { id: string }
+  params: { id: string };
 }
 
-export default async function InterviewFeedbackPage({ params }: InterviewFeedbackPageProps) {
-    const { id } = await params
-    const session = await auth()
-    const feedback = await getFeedbackById(id)
-    const interview = await getInterviewById(feedback.interviewId)
+export default async function InterviewFeedbackPage({
+  params,
+}: InterviewFeedbackPageProps) {
+  const { id } = await params;
+  const session = await auth();
+  const feedback = await getFeedbackById(id);
+  const interview = await getInterviewById(feedback.interviewId);
 
-    if (!session) {
+  if (!session) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[90vh] p-3">
         <div className="bg-gray-800/50 rounded-xl p-8 text-center border border-gray-700 max-w-md w-full">
@@ -41,32 +43,32 @@ export default async function InterviewFeedbackPage({ params }: InterviewFeedbac
       </div>
     );
   }
-    return (
-        <main className="min-h-screen text-white max-w-7xl mx-auto">
-              <div className="flex w-full justify-evenly gap-4 max-sm:items-center p-3">
-                <Button className="w-fit rounded-2xl px-5 cursor-pointer min-h-10 flex-1">
-                  <Link href="/" className="flex w-full justify-center">
-                    <p className="text-sm font-semibold text-primary-200 text-center">
-                      Back to Homepage
-                    </p>
-                  </Link>
-                </Button>
-        
-                <Button className="w-fit rounded-2xl px-5 bg-cyan-800 cursor-pointer min-h-10 flex-1">
-                  <Link
-                    href={`/interview/${interview.id}`}
-                    className="flex w-full justify-center"
-                  >
-                    <p className="text-sm font-semibold text-center">
-                      Retake Interview
-                    </p>
-                  </Link>
-                </Button>
-              </div>
-              <div className="text-2xl md:text-3xl font-bold ml-4 capitalize">
-                {interview.title}
-              </div>
-              <FeedbackReport feedback={feedback} candidateName={session?.user?.name} />
-            </main>
-    )
+  return (
+    <main className="min-h-screen text-white max-w-7xl mx-auto">
+      <div className="flex w-full justify-evenly gap-4 max-sm:items-center p-3">
+        <Button className="w-fit rounded-2xl px-5 cursor-pointer min-h-10 flex-1">
+          <Link href="/" className="flex w-full justify-center">
+            <p className="text-sm font-semibold text-primary-200 text-center">
+              Back to Homepage
+            </p>
+          </Link>
+        </Button>
+
+        <Button className="w-fit rounded-2xl px-5 bg-cyan-800 cursor-pointer min-h-10 flex-1">
+          <Link
+            href={`/interview/${interview.id}`}
+            className="flex w-full justify-center"
+          >
+            <p className="text-sm font-semibold text-center">
+              Retake Interview
+            </p>
+          </Link>
+        </Button>
+      </div>
+      <div className="text-2xl md:text-3xl font-bold ml-4 capitalize">
+        {interview.title}
+      </div>
+      <FeedbackReport feedback={feedback} candidateName={session?.user?.name} />
+    </main>
+  );
 }

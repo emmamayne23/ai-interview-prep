@@ -12,6 +12,7 @@ import { Trash2 } from "lucide-react";
 import { deleteFeedback } from "@/lib/interview.actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface Feedback {
   id: string;
@@ -39,9 +40,23 @@ export default function FeedbackAccordion({
   const router = useRouter();
 
   const handleDelete = async () => {
-    await deleteFeedback(feedback.id);
-    router.refresh();
-    setIsOpen(false);
+    try {
+      const result = await deleteFeedback(feedback.id)
+
+      if(result?.success) {
+        setIsOpen(false)
+        router.refresh()
+        toast.success("Feedback report deleted successfully.")
+      } else {
+        toast.error("Failed to delete feedback. Please try again.");
+        setIsOpen(false);
+      }
+      
+    } catch (error) {
+      console.error("Error during feedback deletion: ", error)
+      toast.error("An unexpected error occurred. Please try again.")
+      setIsOpen(false)
+    }
   };
 
   return (
@@ -199,9 +214,9 @@ export default function FeedbackAccordion({
                       e.stopPropagation();
                       setIsOpen(true);
                     }}
-                    className="text-red-500"
+                    className="text-red-500 hover:text-red-700"
                   >
-                    <Trash2 size={16} /> Delete
+                    <Trash2 size={16} /> Delete Feedback
                   </Button>
                 </div>
               </div>

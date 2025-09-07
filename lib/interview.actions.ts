@@ -52,8 +52,8 @@ export async function createInterview(values: z.infer<typeof formSchema>) {
   const session = await auth();
   const userid = session?.user?.id;
 
-  if(!userid) {
-    throw new Error("User not authenticated!")
+  if (!userid) {
+    throw new Error("User not authenticated!");
   }
 
   const { role, field, skills, level, type, number } = values;
@@ -70,36 +70,44 @@ export async function createInterview(values: z.infer<typeof formSchema>) {
                 ["Question 1", "Question 2", "Question 3"]
                 
                 Thank you! <3
-            `
+            `;
   const { text: questions } = await generateText({
     model: google("gemini-2.0-flash-001"),
     prompt: questionsPrompt,
   });
-    // console.log("Form data:", values, "Questions:", aiResponse);
+  // console.log("Form data:", values, "Questions:", aiResponse);
 
-  const createdInterview = await db.insert(interviews).values({
+  const createdInterview = await db
+    .insert(interviews)
+    .values({
       userId: userid,
       title: `${role} Interview`,
       formData: values,
       questions: JSON.parse(questions),
-      status: "in_progress"
-  }).returning()
+      status: "in_progress",
+    })
+    .returning();
 
-  return createdInterview[0]
+  return createdInterview[0];
 }
 
 export async function createFeedback(params: CreateFeedbackParams) {
-  const session = await auth()
-  const userId = session?.user?.id
-  const { interviewId, transcript } = params
+  const session = await auth();
+  const userId = session?.user?.id;
+  const { interviewId, transcript } = params;
   if (!userId) {
     throw new Error("User not authenticated.");
   }
   try {
-    const formattedTranscript = transcript.map((sentence) => `- ${sentence.role}: ${sentence.content}`)
-      .join("")
-    
-    const [interview] = await db.select().from(interviews).where(eq(interviews.id, interviewId)).limit(1)
+    const formattedTranscript = transcript
+      .map((sentence) => `- ${sentence.role}: ${sentence.content}`)
+      .join("");
+
+    const [interview] = await db
+      .select()
+      .from(interviews)
+      .where(eq(interviews.id, interviewId))
+      .limit(1);
     if (!interview) {
       throw new Error("Interview not found.");
     }
@@ -108,23 +116,31 @@ export async function createFeedback(params: CreateFeedbackParams) {
       model: google("gemini-2.0-flash-001"),
       schema: feedbackSchema,
       prompt: `
-        You are an expert career coach providing personalized feedback for a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. If there are mistakes or areas for improvement, point them out.
+    You are an expert career coach providing personalized feedback for a mock interview. 
+    Your task is to evaluate the candidate based on structured categories. 
+    Be **honest and strict with scoring (avoid inflating scores)** so the candidate gets a realistic benchmark. 
+    However, keep your **written feedback constructive and encouraging** — highlight strengths, but focus more on 
+    specific areas where they can improve and give actionable advice.
 
-        Transcript:
-        ${formattedTranscript}
-        
-        Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
-        - **Communication Skills**: Clarity, articulation, structured responses.
-        - **Technical Knowledge**: Understanding of key concepts for the role.
-        - **Problem-Solving**: Ability to analyze problems and propose solutions.
-        - **Cultural & Role Fit**: Alignment with company values and job role.
-        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
-      `,
+    Transcript:
+    ${formattedTranscript}
+
+    Please score the candidate from 0 to 100 in the following areas. Do not add categories other than the ones provided:
+
+    - **Communication Skills**: Clarity, articulation, structured responses.
+    - **Technical Knowledge**: Understanding of key concepts for the role.
+    - **Problem-Solving**: Ability to analyze problems and propose solutions.
+    - **Cultural & Role Fit**: Alignment with company values and job role.
+    - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+
+      Important:
+    - **Scoring Principle:** Be harsh and realistic with the numeric scores. This is a simulation of a real interview, not a participation trophy. Do not inflate scores.
+    - **Writing Principle:** For the written analysis, be a supportive coach. Acknowledge strengths, but provide direct, actionable, and motivating advice for improvement. The tone should be professional and constructive, not discouraging.
+  `,
       system:
-        "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
-    })
+        "You are a professional interviewer analyzing a mock interview. Be strict in scoring but constructive in your written feedback.",
+    });
 
-    
     const [newFeedback] = await db
       .insert(feedbacks)
       .values({
@@ -135,13 +151,14 @@ export async function createFeedback(params: CreateFeedbackParams) {
         strengths: feedbackObject.strengths,
         areasForImprovement: feedbackObject.areasForImprovement,
         suggestions: feedbackObject.suggestions,
-        finalAssessment: feedbackObject.finalAssessment
-      }).returning()
-      // console.log(newFeedback)
-      return { success: true, feedback: newFeedback }
+        finalAssessment: feedbackObject.finalAssessment,
+      })
+      .returning();
+    // console.log(newFeedback)
+    return { success: true, feedback: newFeedback };
   } catch (error) {
     console.error(error);
-    return { success: false, feedback: null }
+    return { success: false, feedback: null };
   }
 }
 
@@ -150,23 +167,24 @@ export async function getInterviewById(id: string) {
     .select()
     .from(interviews)
     .where(eq(interviews.id, id))
-    .execute()
+    .execute();
 
-    return interview
+  return interview;
 }
 
-export async function getFeedbackByInterviewId(params: GetFeedbackByInterviewIdParams) {
-  const { userId, interviewId } = params
-  
+export async function getFeedbackByInterviewId(
+  params: GetFeedbackByInterviewIdParams
+) {
+  const { userId, interviewId } = params;
+
   const [feedback] = await db
     .select()
     .from(feedbacks)
-    .where(and
-      (eq(feedbacks.interviewId, interviewId), 
-      eq(feedbacks.userId, userId))
-    )
+    .where(
+      and(eq(feedbacks.interviewId, interviewId), eq(feedbacks.userId, userId))
+    );
 
-    return feedback
+  return feedback;
 }
 
 export async function getFeedbackById(id: string) {
@@ -174,49 +192,48 @@ export async function getFeedbackById(id: string) {
     .select()
     .from(feedbacks)
     .where(eq(feedbacks.id, id))
-    .limit(1)
+    .limit(1);
 
-    if(!feedback) throw new Error("Feedback not found")
+  if (!feedback) throw new Error("Feedback not found");
 
-    return feedback
+  return feedback;
 }
 
 export async function getAllInterviews() {
   const allInterviews = await db
     .select()
     .from(interviews)
-    .orderBy(desc(interviews.createdAt))
+    .orderBy(desc(interviews.createdAt));
 
-  return allInterviews
+  return allInterviews;
 }
 
 export async function getUserFeedbacks(userId: string) {
   const userFeedbacks = await db
-   .select({
-    id: feedbacks.id,
-    interviewId: interviews.id,
-    interviewName: interviews.title,
-    interviewData: interviews.formData,
-    interviewScore: feedbacks.overallScore,
-    interviewAssesment: feedbacks.finalAssessment,
-    feedbackDate: feedbacks.createdAt,
-   })
-   .from(feedbacks)
-   .where(eq(feedbacks.userId, userId))
-   .leftJoin(interviews, eq(feedbacks.interviewId, interviews.id))
-   .orderBy(desc(feedbacks.createdAt))
+    .select({
+      id: feedbacks.id,
+      interviewId: interviews.id,
+      interviewName: interviews.title,
+      interviewData: interviews.formData,
+      interviewScore: feedbacks.overallScore,
+      interviewAssesment: feedbacks.finalAssessment,
+      feedbackDate: feedbacks.createdAt,
+    })
+    .from(feedbacks)
+    .where(eq(feedbacks.userId, userId))
+    .leftJoin(interviews, eq(feedbacks.interviewId, interviews.id))
+    .orderBy(desc(feedbacks.createdAt));
 
-   return userFeedbacks
+  return userFeedbacks;
 }
 
 export async function deleteFeedback(feedbackId: string) {
   try {
-    await db
-      .delete(feedbacks)
-      .where(eq(feedbacks.id, feedbackId))
+    await db.delete(feedbacks).where(eq(feedbacks.id, feedbackId));
+    return { success: true };
   } catch (error) {
-    console.error("Failed to delete feedback", error)
-    return { success: false, error: "Could not delete feedback" }
+    console.error("Failed to delete feedback", error);
+    return { success: false, error: "Could not delete feedback" };
   }
 }
 
@@ -225,7 +242,7 @@ export async function getUserInterviews(userId: string) {
     .select()
     .from(interviews)
     .where(eq(interviews.userId, userId))
-    .orderBy(desc(interviews.createdAt))
+    .orderBy(desc(interviews.createdAt));
 
-  return userInterviews
+  return userInterviews;
 }

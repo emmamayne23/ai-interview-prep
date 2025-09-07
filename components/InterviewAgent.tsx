@@ -16,7 +16,6 @@ enum CallStatus {
 export default function InterviewAgent({
   interviewId,
   questions,
-  userId,
   userName,
 }: AgentProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -76,13 +75,14 @@ export default function InterviewAgent({
   };
 
   useEffect(() => {
-    if (
-      callStatus === CallStatus.FINISHED &&
-      messages.some((m) => m.role === "user")
-    ) {
-      handleGenerateFeedback(messages);
+    if (callStatus === CallStatus.FINISHED) {
+      if (messages.some((m) => m.role === "user")) {
+        handleGenerateFeedback(messages);
+      } else {
+        router.push("/")
+      }
     }
-  }, [messages, callStatus, userId]);
+  }, [messages, callStatus, router]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
@@ -194,9 +194,9 @@ export default function InterviewAgent({
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="mr-2 lucide lucide-command-icon lucide-command"
               >
                 <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
@@ -218,8 +218,8 @@ export default function InterviewAgent({
           </div>
         )}
 
-        {callStatus === "FINISHED" && (
-          <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-10 rounded-xl">
+        {callStatus === "FINISHED" && messages.some((m) => m.role === "user") && (
+          <div className="absolute inset-0 bg-white/90 flex items-center justify-center z-10 rounded-xl">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
               <p className="text-gray-700 font-medium">

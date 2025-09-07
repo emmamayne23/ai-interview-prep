@@ -3,7 +3,7 @@ import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 export const interviewer: CreateAssistantDTO = {
   name: "Interviewer",
   firstMessage:
-    "Hello {{userName}}! Thank you for taking the time to speak with me today. I'm Hannah and I'm excited to learn more about you and your experience. Could you start by telling me a little about yourself?",
+    "Hello {{userName}}! Thank you for taking the time to speak with me today. I'm Sarah, and I'm excited to learn more about you and your experience. Could you start by telling me a little about yourself?",
   transcriber: {
     provider: "deepgram",
     model: "nova-2",
@@ -12,10 +12,10 @@ export const interviewer: CreateAssistantDTO = {
   voice: {
     provider: "11labs",
     voiceId: "sarah",
-    stability: 0.4,
+    stability: 0.6,
     similarityBoost: 0.8,
-    speed: 0.8,
-    style: 0.5,
+    speed: 0.9,
+    style: 0.3,
     useSpeakerBoost: true,
   },
   model: {
